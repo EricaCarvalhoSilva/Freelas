@@ -58,11 +58,31 @@ export function VagaFormModal({
     }));
   };
 
-  const submeter = async (statusDestino) => {
-    if (!form.titulo.trim() || !form.data || Number(form.valorHora) <= 0) {
+const submeter = async (statusDestino) => {
+    const valorNumerico = Number(String(form.valorHora).replace(",", "."));
+
+    if (!form.titulo.trim() || !form.data || isNaN(valorNumerico) || valorNumerico <= 0) {
       setErro("Preencha título, data e um valor por hora maior que zero.");
       return;
     }
+
+    setEnviando(true);
+    setErro("");
+    try {
+      await onSalvar({
+        ...form,
+        intervaloMinutos: Number(form.intervaloMinutos),
+        valorHora: valorNumerico,
+        quantidadeVagas: Number(form.quantidadeVagas),
+        status: statusDestino,
+      });
+      onClose();
+    } catch {
+      setErro("Não foi possível salvar a vaga. Tente novamente.");
+    } finally {
+      setEnviando(false);
+    }
+  };
 
     setEnviando(true);
     setErro("");
@@ -205,8 +225,8 @@ export function VagaFormModal({
           <div className="form-group">
             <label>Valor por hora (R$)</label>
             <input
-              type="number"
-              step="0.50"
+              type="text"
+              inputMode="decimal"
               className="form-input"
               name="valorHora"
               placeholder="0,00"
