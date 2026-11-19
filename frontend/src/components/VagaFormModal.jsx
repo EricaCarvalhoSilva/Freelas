@@ -84,23 +84,6 @@ const submeter = async (statusDestino) => {
     }
   };
 
-    setEnviando(true);
-    setErro("");
-    try {
-      await onSalvar({
-        ...form,
-        intervaloMinutos: Number(form.intervaloMinutos),
-        valorHora: Number(form.valorHora),
-        quantidadeVagas: Number(form.quantidadeVagas),
-        status: statusDestino,
-      });
-      onClose();
-    } catch {
-      setErro("Não foi possível salvar a vaga. Tente novamente.");
-    } finally {
-      setEnviando(false);
-    }
-  };
 
   const tituloModal = somenteLeitura
     ? "Detalhes da vaga"
