@@ -1,0 +1,6349 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Freelas API",
+    "description": "API REST do Freelas (MeuFreela): empresas, freelancers, vagas, contratações, pagamentos em custódia, avaliações e substituição automática.",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "token": []
+    }
+  ],
+  "paths": {
+    "/freelancers/me/funcoes": {
+      "put": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Definir as funções (categorias de atuação) e os anos de experiência",
+        "operationId": "funcoes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FuncoesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FuncaoResposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/foto": {
+      "put": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Enviar ou trocar a foto (URL no armazenamento de arquivos)",
+        "operationId": "foto",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FotoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/favoritos/{vagaId}": {
+      "put": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Favoritar vaga (não reserva a vaga)",
+        "operationId": "favoritar",
+        "parameters": [
+          {
+            "name": "vagaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Remover dos favoritos",
+        "operationId": "desfavoritar",
+        "parameters": [
+          {
+            "name": "vagaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/freelancers/me/dados-recebimento/{id}": {
+      "put": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Alterar chave ou conta (reinicia a quarentena de 24 h)",
+        "operationId": "alterarConta",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContaRecebimentoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContaRecebimentoResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/curriculo": {
+      "put": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Enviar ou trocar o currículo (URL no armazenamento de arquivos)",
+        "operationId": "curriculo",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CurriculoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/empresas/{id}/senha": {
+      "put": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Alterar a senha informando a atual",
+        "operationId": "alterarSenha",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlterarSenhaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/empresas/{id}/endereco": {
+      "put": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Substituir o endereço do estabelecimento",
+        "operationId": "alterarEndereco",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnderecoDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/webhooks/gateway-pagamento": {
+      "post": {
+        "tags": [
+          "Pagamentos"
+        ],
+        "summary": "Webhook do gateway de pagamento (assinado com HMAC-SHA256)",
+        "operationId": "webhook",
+        "parameters": [
+          {
+            "name": "X-Assinatura",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/vagas": {
+      "get": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Buscar vagas publicadas (destaques primeiro; Premium vê 15 min antes)",
+        "operationId": "buscar",
+        "parameters": [
+          {
+            "name": "funcaoId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "exclusiveMinimum": 0
+            }
+          },
+          {
+            "name": "cidade",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 0
+            }
+          },
+          {
+            "name": "uf",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "[A-Za-z]{2}"
+            }
+          },
+          {
+            "name": "cepPrefixo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "\\d{1,8}"
+            }
+          },
+          {
+            "name": "valorMin",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "minimum": 0.0
+            }
+          },
+          {
+            "name": "valorMax",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "minimum": 0.0
+            }
+          },
+          {
+            "name": "inicioDe",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "inicioAte",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "ordenarPor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "DATA_PUBLICACAO",
+                "VALOR",
+                "INICIO"
+              ]
+            }
+          },
+          {
+            "name": "ordem",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaResposta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Criar vaga como rascunho",
+        "operationId": "criar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vagas/{id}/publicacao": {
+      "post": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Publicar vaga (valida regras e avisa freelancers da região pela fila)",
+        "operationId": "publicar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vagas/{id}/destaques": {
+      "get": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Destaques comprados para a vaga",
+        "operationId": "destaques",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImpulsionamentoResposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Comprar destaque para a vaga (exige Idempotency-Key)",
+        "operationId": "destacar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 50,
+              "minLength": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DestaqueRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImpulsionamentoResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vagas/{id}/contratacoes": {
+      "post": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Contratar um candidato (o freelancer tem 6 h para aceitar; a cobrança acontece no aceite)",
+        "operationId": "contratar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContratarRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vagas/{id}/candidaturas": {
+      "get": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Candidatos da vaga, ordenados por score, trabalhos concluídos ou data",
+        "operationId": "candidatos",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "ordenarPor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "DATA_CANDIDATURA",
+                "SCORE",
+                "TRABALHOS_CONCLUIDOS"
+              ]
+            }
+          },
+          {
+            "name": "ordem",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaCandidatoResposta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Candidatar-se à vaga",
+        "operationId": "candidatar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vagas/{id}/cancelamento": {
+      "post": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Cancelar vaga (recusa candidaturas pendentes e estorna pagamentos)",
+        "operationId": "cancelar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelamentoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/substituicoes/{id}/cancelamento": {
+      "post": {
+        "tags": [
+          "Substituições"
+        ],
+        "summary": "Cancelar a reposição",
+        "operationId": "cancelar_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/substituicoes/{id}/aceite": {
+      "post": {
+        "tags": [
+          "Substituições"
+        ],
+        "summary": "Freelancer aceita a vaga relâmpago (o primeiro que aceitar fica com ela)",
+        "operationId": "aceitar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pagamentos/{id}/disputa": {
+      "post": {
+        "tags": [
+          "Pagamentos"
+        ],
+        "summary": "Empresa contesta o pagamento antes da liberação (fica retido até a decisão)",
+        "operationId": "disputa",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DisputaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers": {
+      "post": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Cadastrar freelancer (18+ anos, aceite dos termos); cria a carteira",
+        "operationId": "cadastrar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CadastroRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/saques": {
+      "get": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Listar saques",
+        "operationId": "saques",
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaSaqueResposta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Solicitar saque Pix do saldo disponível (exige Idempotency-Key)",
+        "operationId": "sacar",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 50,
+              "minLength": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaqueRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaqueResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/formacoes": {
+      "post": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Adicionar formação ou curso",
+        "operationId": "adicionarFormacao",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormacaoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormacaoResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/dados-recebimento": {
+      "get": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Chaves Pix e contas (mascaradas)",
+        "operationId": "contas",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContaRecebimentoResposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Cadastrar chave Pix ou conta; saques liberados após 24 h",
+        "operationId": "cadastrarConta",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContaRecebimentoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContaRecebimentoResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/boosts": {
+      "get": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Boosts ativo e anteriores",
+        "operationId": "boosts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImpulsionamentoResposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Contratar Boost de 24 h (perfil completo, Pix homologado, sem no-show recente)",
+        "operationId": "boost",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 50,
+              "minLength": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BoostRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImpulsionamentoResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/assinaturas": {
+      "post": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Assinar o Premium (R$ 19,90 / 30 dias) - exige Idempotency-Key",
+        "operationId": "assinar",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 50,
+              "minLength": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssinaturaFreelancerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssinaturaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/assinaturas/atual/cancelamento": {
+      "post": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Cancelar a renovação (acesso até o fim dos 30 dias pagos)",
+        "operationId": "cancelarAssinatura",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssinaturaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/empresas": {
+      "post": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Criar o cadastro da empresa (status PENDENTE até confirmar o e-mail)",
+        "operationId": "cadastrar_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CadastroRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/empresas/{id}/meios-pagamento": {
+      "get": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Listar os meios de pagamento",
+        "operationId": "listarMeios",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MeioPagamentoResposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Cadastrar cartão ou Pix (só o token do gateway, nunca o número do cartão)",
+        "operationId": "cadastrarMeio",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MeioPagamentoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeioPagamentoResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/empresas/{id}/assinaturas": {
+      "get": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Assinatura atual e histórico",
+        "operationId": "assinaturas",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssinaturaResposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Assinar o Premium da empresa (exige Idempotency-Key)",
+        "operationId": "assinar_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 50,
+              "minLength": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssinaturaEmpresaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssinaturaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dispositivos": {
+      "post": {
+        "tags": [
+          "Notificações"
+        ],
+        "summary": "Registrar o aparelho para receber push",
+        "operationId": "dispositivo",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DispositivoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DispositivoResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/conversas/{id}/mensagens": {
+      "get": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Mensagens da conversa, da mais nova para a mais antiga (use antesDe para paginar)",
+        "operationId": "mensagens",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "antesDe",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MensagemResposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Enviar mensagem (idCliente evita duplicar no reenvio)",
+        "operationId": "enviar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MensagemRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MensagemResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/conversas/{id}/leitura": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Marcar como lidas as mensagens recebidas",
+        "operationId": "leitura",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeituraResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contratacoes/{id}/substituicoes": {
+      "post": {
+        "tags": [
+          "Contratações"
+        ],
+        "summary": "Pedir reposição do freelancer (vaga relâmpago para a região)",
+        "operationId": "substituir",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contratacoes/{id}/recusa": {
+      "post": {
+        "tags": [
+          "Contratações"
+        ],
+        "summary": "Freelancer recusa a contratação",
+        "operationId": "recusar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contratacoes/{id}/ocorrencias": {
+      "post": {
+        "tags": [
+          "Contratações"
+        ],
+        "summary": "Registrar ocorrência (no-show, abandono...)",
+        "operationId": "ocorrencia",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OcorrenciaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OcorrenciaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contratacoes/{id}/conclusao": {
+      "post": {
+        "tags": [
+          "Contratações"
+        ],
+        "summary": "Empresa confirma a conclusão e libera o pagamento ao freelancer",
+        "operationId": "concluir",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contratacoes/{id}/check-out": {
+      "post": {
+        "tags": [
+          "Contratações"
+        ],
+        "summary": "Registrar saída",
+        "operationId": "checkout",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckinRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contratacoes/{id}/check-in": {
+      "post": {
+        "tags": [
+          "Contratações"
+        ],
+        "summary": "Registrar chegada (a partir de 60 min antes do início)",
+        "operationId": "checkin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckinRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contratacoes/{id}/cancelamento": {
+      "post": {
+        "tags": [
+          "Contratações"
+        ],
+        "summary": "Cancelar (com menos de 24 h gera ocorrência; o pagamento é estornado)",
+        "operationId": "cancelar_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelamentoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contratacoes/{id}/avaliacoes": {
+      "get": {
+        "tags": [
+          "Contratações"
+        ],
+        "summary": "Avaliações da contratação visíveis para quem consulta",
+        "operationId": "avaliacoes",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Resposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Contratações"
+        ],
+        "summary": "Avaliar a outra parte (nota de 0 a 5, janela de 72 h, regra cega)",
+        "operationId": "avaliar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contratacoes/{id}/aceite": {
+      "post": {
+        "tags": [
+          "Contratações"
+        ],
+        "summary": "Freelancer aceita (dentro de 6 h); aqui a empresa é cobrada e o valor fica em custódia",
+        "operationId": "aceitar_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/candidaturas/{id}/conversa": {
+      "post": {
+        "tags": [
+          "Candidaturas"
+        ],
+        "summary": "Abrir a conversa da candidatura (201 se criou, 200 se já existia)",
+        "operationId": "conversa",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/candidaturas/{id}/cancelamento": {
+      "post": {
+        "tags": [
+          "Candidaturas"
+        ],
+        "summary": "Freelancer desiste da candidatura",
+        "operationId": "cancelar_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/avaliacoes/{id}/contestacoes": {
+      "post": {
+        "tags": [
+          "Avaliações"
+        ],
+        "summary": "Contestar uma avaliação recebida (vai para moderação)",
+        "operationId": "contestar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContestacaoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContestacaoResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/autenticacao/renovacao": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Trocar o token de renovação por um novo par de tokens",
+        "operationId": "renovar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenovacaoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/autenticacao/redefinicao-senha": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Definir a nova senha com o código recebido",
+        "operationId": "redefinir",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RedefinicaoSenhaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MensagemResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/autenticacao/recuperacao-senha": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Esqueci a senha: envia um código válido por 15 minutos",
+        "operationId": "recuperar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MensagemResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/autenticacao/logout": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Sair e invalidar o token de renovação",
+        "operationId": "logout",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenovacaoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/autenticacao/login": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Entrar com e-mail e senha; devolve o token de acesso e o de renovação",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/autenticacao/confirmacao-email": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Confirmar o e-mail (cadastro ou troca de e-mail) com o código de 6 dígitos",
+        "operationId": "confirmarEmail",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmacaoEmailRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MensagemResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/autenticacao/confirmacao-email/reenvio": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Reenviar o código de confirmação de e-mail",
+        "operationId": "reenviar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MensagemResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assinaturas/{id}/cancelamento": {
+      "post": {
+        "tags": [
+          "Premium e Boost"
+        ],
+        "summary": "Cancelar a assinatura (vale até o fim do período pago)",
+        "operationId": "cancelar_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssinaturaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/disputas/{pagamentoId}/decisao": {
+      "post": {
+        "tags": [
+          "Administração"
+        ],
+        "summary": "Decidir a disputa: libera ao freelancer ou estorna à empresa",
+        "operationId": "decidirDisputa",
+        "parameters": [
+          {
+            "name": "pagamentoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecisaoDisputaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/contestacoes/{id}/decisao": {
+      "post": {
+        "tags": [
+          "Administração"
+        ],
+        "summary": "Aceitar (remove a avaliação) ou rejeitar a contestação",
+        "operationId": "decidirContestacao",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecisaoContestacaoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContestacaoResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vagas/{id}": {
+      "get": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Detalhe da vaga",
+        "operationId": "detalhe",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Excluir rascunho",
+        "operationId": "excluir",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Editar vaga (rascunho livre; publicada só antes da primeira candidatura)",
+        "operationId": "atualizar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AtualizarRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/substituicoes/{id}": {
+      "get": {
+        "tags": [
+          "Substituições"
+        ],
+        "summary": "Acompanhar a reposição",
+        "operationId": "consultar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Substituições"
+        ],
+        "summary": "Ampliar o raio de busca",
+        "operationId": "alterarRaio",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RaioRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notificacoes/{id}": {
+      "patch": {
+        "tags": [
+          "Notificações"
+        ],
+        "summary": "Marcar notificação como lida ou não lida",
+        "operationId": "marcar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeituraRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificacaoDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me": {
+      "get": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Consultar o próprio perfil",
+        "operationId": "meuPerfil",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Pedir a exclusão da conta (LGPD)",
+        "operationId": "excluir_1",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Alterar dados livres: telefone, apresentação e endereço",
+        "operationId": "atualizar_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AtualizacaoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/senha": {
+      "patch": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Alterar a senha",
+        "operationId": "senha",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlterarSenhaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/empresas/{id}": {
+      "get": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Consultar a empresa (completo para a própria empresa, público para os demais)",
+        "operationId": "buscar_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Pedir a exclusão da conta (LGPD)",
+        "operationId": "excluir_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Alterar dados do perfil (CNPJ só pelo suporte; e-mail só depois de confirmar)",
+        "operationId": "atualizar_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AtualizacaoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/candidaturas/{id}": {
+      "get": {
+        "tags": [
+          "Candidaturas"
+        ],
+        "summary": "Consultar candidatura (o freelancer dono ou a empresa da vaga)",
+        "operationId": "buscar_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Candidaturas"
+        ],
+        "summary": "Empresa marca a candidatura como RECUSADA",
+        "operationId": "atualizar_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AtualizacaoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assinaturas/{id}": {
+      "patch": {
+        "tags": [
+          "Premium e Boost"
+        ],
+        "summary": "Ligar ou desligar a renovação automática",
+        "operationId": "renovacao",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenovacaoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssinaturaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vagas/{id}/historico": {
+      "get": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Histórico de alterações da vaga (log de auditoria)",
+        "operationId": "historico",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaHistoricoItem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/planos": {
+      "get": {
+        "tags": [
+          "Premium e Boost"
+        ],
+        "summary": "Planos Premium (filtro por público: EMPRESA ou FREELANCER)",
+        "operationId": "planos",
+        "parameters": [
+          {
+            "name": "publico",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "FREELANCER",
+                "EMPRESA"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlanoResposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/opcoes-destaque": {
+      "get": {
+        "tags": [
+          "Premium e Boost"
+        ],
+        "summary": "Opções de destaque de vaga e preços",
+        "operationId": "opcoesDestaque",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OpcaoResposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notificacoes": {
+      "get": {
+        "tags": [
+          "Notificações"
+        ],
+        "summary": "Minhas notificações (filtro opcional por lida)",
+        "operationId": "listar",
+        "parameters": [
+          {
+            "name": "lida",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaNotificacaoDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/funcoes": {
+      "get": {
+        "tags": [
+          "Vagas"
+        ],
+        "summary": "Funções (categorias) disponíveis para vagas e perfis",
+        "operationId": "funcoes_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FuncaoResposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/{id}": {
+      "get": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Perfil do candidato para a empresa (sem CPF; contato só após contratação confirmada)",
+        "operationId": "perfil",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PerfilParaEmpresa"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/{id}/avaliacoes": {
+      "get": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Avaliações publicadas recebidas pelo freelancer",
+        "operationId": "avaliacoesDoFreelancer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/score": {
+      "get": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Score, nível de reputação e a composição do cálculo",
+        "operationId": "score",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/saques/{id}": {
+      "get": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Acompanhar um saque",
+        "operationId": "saque",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaqueResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/ganhos/resumo": {
+      "get": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Painel de ganhos: HOJE, SETE_DIAS, MES ou TOTAL",
+        "operationId": "ganhos",
+        "parameters": [
+          {
+            "name": "periodo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "HOJE",
+                "SETE_DIAS",
+                "MES",
+                "TOTAL"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GanhosResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/favoritos": {
+      "get": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Vagas favoritas",
+        "operationId": "favoritos",
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/convites-reposicao": {
+      "get": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Vagas relâmpago (substituições) abertas para mim",
+        "operationId": "convites",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Resposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/conversas": {
+      "get": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Minhas conversas com empresas",
+        "operationId": "conversas",
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaConversaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/contratacoes": {
+      "get": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Minhas contratações (turnos)",
+        "operationId": "contratacoes",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "AGUARDANDO_ACEITE",
+                "CONFIRMADA",
+                "EM_ANDAMENTO",
+                "CONCLUIDA",
+                "CANCELADA",
+                "NO_SHOW",
+                "SUBSTITUIDA"
+              ]
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/completude": {
+      "get": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "O que falta no perfil",
+        "operationId": "completude",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompletudeResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/carteira": {
+      "get": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Saldos disponível, pendente e bloqueado",
+        "operationId": "saldos",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaldosResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/carteira/extrato": {
+      "get": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Extrato com filtro de período (datas AAAA-MM-DD)",
+        "operationId": "extrato",
+        "parameters": [
+          {
+            "name": "tipo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CREDITO",
+                "SAQUE",
+                "BLOQUEIO",
+                "ESTORNO"
+              ]
+            }
+          },
+          {
+            "name": "de",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "ate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaMovimentacaoResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/candidaturas": {
+      "get": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Minhas candidaturas",
+        "operationId": "candidaturas",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ENVIADA",
+                "SELECIONADA",
+                "RECUSADA",
+                "DESISTENCIA",
+                "CONTRATADA"
+              ]
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/avaliacoes": {
+      "get": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Avaliações que recebi (as ocultas pela regra cega não aparecem)",
+        "operationId": "minhasAvaliacoes",
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/avaliacoes/pendentes": {
+      "get": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Turnos com a janela de 72 h aberta para avaliar a empresa",
+        "operationId": "pendentes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PendenteResposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/assinaturas/atual": {
+      "get": {
+        "tags": [
+          "Freelancer - carteira, Premium e Boost"
+        ],
+        "summary": "Assinatura vigente e vencimento",
+        "operationId": "assinaturaAtual",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssinaturaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/empresas/{id}/vagas": {
+      "get": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Listar as vagas da empresa",
+        "operationId": "vagas",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "RASCUNHO",
+                "PUBLICADA",
+                "PREENCHIDA",
+                "CONCLUIDA",
+                "CANCELADA",
+                "ENCERRADA_PRAZO"
+              ]
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/empresas/{id}/pagamentos": {
+      "get": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Histórico de pagamentos e comprovantes",
+        "operationId": "pagamentos",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PAGO_CUSTODIA",
+                "AGUARDANDO_CONFIRMACAO",
+                "LIBERADO",
+                "EM_DISPUTA",
+                "ESTORNADO"
+              ]
+            }
+          },
+          {
+            "name": "de",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "ate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/empresas/{id}/conversas": {
+      "get": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Conversas da empresa com a última mensagem e as não lidas",
+        "operationId": "conversas_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaConversaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/empresas/{id}/contratacoes": {
+      "get": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Listar as contratações da empresa",
+        "operationId": "contratacoes_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "AGUARDANDO_ACEITE",
+                "CONFIRMADA",
+                "EM_ANDAMENTO",
+                "CONCLUIDA",
+                "CANCELADA",
+                "NO_SHOW",
+                "SUBSTITUIDA"
+              ]
+            }
+          },
+          {
+            "name": "vagaId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/empresas/{id}/avaliacoes": {
+      "get": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Avaliações recebidas pela empresa (só leitura)",
+        "operationId": "avaliacoes_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contratacoes/{id}": {
+      "get": {
+        "tags": [
+          "Contratações"
+        ],
+        "summary": "Consultar contratação (empresa ou freelancer envolvidos)",
+        "operationId": "buscar_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contratacoes/{id}/pagamento": {
+      "get": {
+        "tags": [
+          "Contratações"
+        ],
+        "summary": "Pagamento da contratação",
+        "operationId": "pagamento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/boosts/opcoes": {
+      "get": {
+        "tags": [
+          "Premium e Boost"
+        ],
+        "summary": "Opções de Boost de perfil e preços",
+        "operationId": "opcoesBoost",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OpcaoResposta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/disputas": {
+      "get": {
+        "tags": [
+          "Administração"
+        ],
+        "summary": "Pagamentos em disputa",
+        "operationId": "disputas",
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/contestacoes": {
+      "get": {
+        "tags": [
+          "Administração"
+        ],
+        "summary": "Contestações de avaliação abertas",
+        "operationId": "contestacoes",
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "tamanho",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginaRespostaContestacaoResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/freelancers/me/formacoes/{formacaoId}": {
+      "delete": {
+        "tags": [
+          "Freelancer"
+        ],
+        "summary": "Remover formação",
+        "operationId": "removerFormacao",
+        "parameters": [
+          {
+            "name": "formacaoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/empresas/{id}/meios-pagamento/{meioId}": {
+      "delete": {
+        "tags": [
+          "Empresa"
+        ],
+        "summary": "Desativar um meio de pagamento",
+        "operationId": "desativarMeio",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "meioId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FuncaoItem": {
+        "type": "object",
+        "properties": {
+          "funcaoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "anosExperiencia": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 60,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "funcaoId"
+        ]
+      },
+      "FuncoesRequest": {
+        "type": "object",
+        "properties": {
+          "funcoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FuncaoItem"
+            },
+            "maxItems": 10,
+            "minItems": 1
+          }
+        },
+        "required": [
+          "funcoes"
+        ]
+      },
+      "FuncaoResposta": {
+        "type": "object",
+        "properties": {
+          "funcaoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "anosExperiencia": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "FotoRequest": {
+        "type": "object",
+        "properties": {
+          "fotoUrl": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "fotoUrl"
+        ]
+      },
+      "EnderecoDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "cep": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\d{5}-?\\d{3}"
+          },
+          "logradouro": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 0
+          },
+          "numero": {
+            "type": "string",
+            "maxLength": 10,
+            "minLength": 0
+          },
+          "complemento": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 0
+          },
+          "bairro": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 0
+          },
+          "cidade": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 0
+          },
+          "uf": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "[A-Za-z]{2}"
+          }
+        },
+        "required": [
+          "bairro",
+          "cep",
+          "cidade",
+          "logradouro",
+          "numero",
+          "uf"
+        ]
+      },
+      "FormacaoResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "titulo": {
+            "type": "string"
+          },
+          "instituicao": {
+            "type": "string"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "CURSO",
+              "CERTIFICADO",
+              "GRADUACAO",
+              "TECNICO",
+              "OUTRO"
+            ]
+          },
+          "anoConclusao": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Resposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "dataNascimento": {
+            "type": "string",
+            "format": "date"
+          },
+          "email": {
+            "type": "string"
+          },
+          "telefone": {
+            "type": "string"
+          },
+          "fotoUrl": {
+            "type": "string"
+          },
+          "apresentacao": {
+            "type": "string"
+          },
+          "curriculoUrl": {
+            "type": "string"
+          },
+          "endereco": {
+            "$ref": "#/components/schemas/EnderecoDto"
+          },
+          "score": {
+            "type": "number"
+          },
+          "nivelReputacao": {
+            "type": "string",
+            "enum": [
+              "EXCELENTE",
+              "BOM",
+              "REGULAR",
+              "EM_RISCO"
+            ]
+          },
+          "verificado": {
+            "type": "boolean"
+          },
+          "suspensoAte": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDENTE",
+              "ATIVO",
+              "SUSPENSO",
+              "BLOQUEADO",
+              "EXCLUIDO"
+            ]
+          },
+          "emailConfirmado": {
+            "type": "boolean"
+          },
+          "premium": {
+            "type": "boolean"
+          },
+          "funcoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FuncaoResposta"
+            }
+          },
+          "formacoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FormacaoResposta"
+            }
+          },
+          "criadoEm": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ContaRecebimentoRequest": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "PIX",
+              "CONTA_BANCARIA"
+            ]
+          },
+          "tipoChavePix": {
+            "type": "string",
+            "enum": [
+              "CPF",
+              "EMAIL",
+              "TELEFONE",
+              "ALEATORIA"
+            ]
+          },
+          "chavePix": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 0
+          },
+          "banco": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 0
+          },
+          "agencia": {
+            "type": "string",
+            "pattern": "\\d{1,6}"
+          },
+          "conta": {
+            "type": "string",
+            "pattern": "[0-9\\-]{1,20}"
+          },
+          "pixCompleto": {
+            "type": "boolean"
+          },
+          "contaCompleta": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "tipo"
+        ]
+      },
+      "ContaRecebimentoResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "PIX",
+              "CONTA_BANCARIA"
+            ]
+          },
+          "tipoChavePix": {
+            "type": "string",
+            "enum": [
+              "CPF",
+              "EMAIL",
+              "TELEFONE",
+              "ALEATORIA"
+            ]
+          },
+          "chavePixMascarada": {
+            "type": "string"
+          },
+          "banco": {
+            "type": "string"
+          },
+          "agenciaMascarada": {
+            "type": "string"
+          },
+          "contaMascarada": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "EM_QUARENTENA",
+              "ATIVA",
+              "PENDENTE_ATUALIZACAO",
+              "INATIVA"
+            ]
+          },
+          "liberadaSaqueEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "criadaEm": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CurriculoRequest": {
+        "type": "object",
+        "properties": {
+          "curriculoUrl": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "curriculoUrl"
+        ]
+      },
+      "AlterarSenhaRequest": {
+        "type": "object",
+        "properties": {
+          "senhaAtual": {
+            "type": "string",
+            "minLength": 1
+          },
+          "novaSenha": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?=.*[A-Za-z])(?=.*\\d).{8,72}$"
+          }
+        },
+        "required": [
+          "novaSenha",
+          "senhaAtual"
+        ]
+      },
+      "CriarRequest": {
+        "type": "object",
+        "properties": {
+          "funcaoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "endereco": {
+            "$ref": "#/components/schemas/EnderecoDto"
+          },
+          "descricao": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 0
+          },
+          "quantidadeProfissionais": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 1
+          },
+          "inicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fim": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "valor": {
+            "type": "number",
+            "minimum": 0.01
+          },
+          "tipoValor": {
+            "type": "string",
+            "enum": [
+              "HORA",
+              "TURNO",
+              "DIARIA"
+            ]
+          },
+          "ofereceAlimentacao": {
+            "type": "boolean"
+          },
+          "tipoAlimentacao": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 0
+          },
+          "formaPagamento": {
+            "type": "string",
+            "enum": [
+              "PIX",
+              "CARTAO"
+            ]
+          },
+          "disponivelAte": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodoValido": {
+            "type": "boolean"
+          },
+          "disponibilidadeValida": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "fim",
+          "formaPagamento",
+          "funcaoId",
+          "inicio",
+          "ofereceAlimentacao",
+          "quantidadeProfissionais",
+          "tipoValor",
+          "valor"
+        ]
+      },
+      "DestaqueRequest": {
+        "type": "object",
+        "properties": {
+          "opcao": {
+            "type": "string",
+            "enum": [
+              "VAGA_24H",
+              "VAGA_7D",
+              "BOOST_24H"
+            ]
+          }
+        },
+        "required": [
+          "opcao"
+        ]
+      },
+      "ImpulsionamentoResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "BOOST_PERFIL",
+              "DESTAQUE_VAGA"
+            ]
+          },
+          "vagaId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "freelancerId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "inicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fim": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "valor": {
+            "type": "number"
+          },
+          "ativo": {
+            "type": "boolean"
+          },
+          "idTransacaoGateway": {
+            "type": "string"
+          }
+        }
+      },
+      "ContratarRequest": {
+        "type": "object",
+        "properties": {
+          "candidaturaId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "candidaturaId"
+        ]
+      },
+      "Parte": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nome": {
+            "type": "string"
+          }
+        }
+      },
+      "CancelamentoRequest": {
+        "type": "object",
+        "properties": {
+          "motivo": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "motivo"
+        ]
+      },
+      "DisputaRequest": {
+        "type": "object",
+        "properties": {
+          "motivo": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "motivo"
+        ]
+      },
+      "CadastroRequest": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 0
+          },
+          "cpf": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dataNascimento": {
+            "type": "string",
+            "format": "date"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 120,
+            "minLength": 0
+          },
+          "senha": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?=.*[A-Za-z])(?=.*\\d).{8,72}$"
+          },
+          "telefone": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[0-9()+\\- ]{10,20}$"
+          },
+          "endereco": {
+            "$ref": "#/components/schemas/EnderecoDto"
+          },
+          "aceiteTermos": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "aceiteTermos",
+          "cpf",
+          "dataNascimento",
+          "email",
+          "endereco",
+          "nome",
+          "senha",
+          "telefone"
+        ]
+      },
+      "SaqueRequest": {
+        "type": "object",
+        "properties": {
+          "contaRecebimentoId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "valor": {
+            "type": "number",
+            "minimum": 1.00
+          }
+        },
+        "required": [
+          "contaRecebimentoId",
+          "valor"
+        ]
+      },
+      "SaqueResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "valor": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDENTE",
+              "CONCLUIDA",
+              "FALHOU"
+            ]
+          },
+          "contaRecebimentoId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "criadaEm": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "FormacaoRequest": {
+        "type": "object",
+        "properties": {
+          "titulo": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 0
+          },
+          "instituicao": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 0
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "CURSO",
+              "CERTIFICADO",
+              "GRADUACAO",
+              "TECNICO",
+              "OUTRO"
+            ]
+          },
+          "anoConclusao": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 2100,
+            "minimum": 1950
+          }
+        },
+        "required": [
+          "titulo"
+        ]
+      },
+      "BoostRequest": {
+        "type": "object",
+        "properties": {
+          "opcao": {
+            "type": "string",
+            "enum": [
+              "VAGA_24H",
+              "VAGA_7D",
+              "BOOST_24H"
+            ]
+          },
+          "aceiteExecucaoImediata": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "aceiteExecucaoImediata"
+        ]
+      },
+      "AssinaturaFreelancerRequest": {
+        "type": "object",
+        "properties": {
+          "planoId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "planoId"
+        ]
+      },
+      "AssinaturaResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "plano": {
+            "$ref": "#/components/schemas/PlanoResposta"
+          },
+          "inicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fim": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "renovacaoAutomatica": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ATIVA",
+              "CANCELADA",
+              "EXPIRADA"
+            ]
+          },
+          "idTransacaoGateway": {
+            "type": "string"
+          }
+        }
+      },
+      "PlanoResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "publico": {
+            "type": "string",
+            "enum": [
+              "FREELANCER",
+              "EMPRESA"
+            ]
+          },
+          "preco": {
+            "type": "number"
+          },
+          "duracaoDias": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "MeioPagamentoRequest": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "CARTAO",
+              "PIX"
+            ]
+          },
+          "tokenGateway": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 0
+          },
+          "finalCartao": {
+            "type": "string",
+            "pattern": "\\d{4}"
+          },
+          "finalCartaoInformado": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "tipo",
+          "tokenGateway"
+        ]
+      },
+      "MeioPagamentoResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "CARTAO",
+              "PIX"
+            ]
+          },
+          "finalCartao": {
+            "type": "string"
+          },
+          "ativo": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AssinaturaEmpresaRequest": {
+        "type": "object",
+        "properties": {
+          "planoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "meioPagamentoId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "meioPagamentoId",
+          "planoId"
+        ]
+      },
+      "DispositivoRequest": {
+        "type": "object",
+        "properties": {
+          "tokenPush": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          },
+          "plataforma": {
+            "type": "string",
+            "enum": [
+              "ANDROID",
+              "IOS",
+              "WEB"
+            ]
+          }
+        },
+        "required": [
+          "plataforma",
+          "tokenPush"
+        ]
+      },
+      "DispositivoResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "plataforma": {
+            "type": "string",
+            "enum": [
+              "ANDROID",
+              "IOS",
+              "WEB"
+            ]
+          },
+          "registradoEm": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "MensagemRequest": {
+        "type": "object",
+        "properties": {
+          "conteudo": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 0
+          },
+          "idCliente": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "conteudo"
+        ]
+      },
+      "MensagemResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "conversaId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "remetenteId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "conteudo": {
+            "type": "string"
+          },
+          "enviadaEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lidaEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "idCliente": {
+            "type": "string"
+          }
+        }
+      },
+      "LeituraResposta": {
+        "type": "object",
+        "properties": {
+          "marcadas": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Request": {
+        "type": "object",
+        "properties": {
+          "motivo": {
+            "type": "string",
+            "enum": [
+              "CANCELAMENTO",
+              "NO_SHOW",
+              "AUSENCIA_TURNO",
+              "AVISO_PREVIO"
+            ]
+          },
+          "raioKm": {
+            "type": "number",
+            "maximum": 200.0,
+            "minimum": 0.5
+          }
+        },
+        "required": [
+          "motivo",
+          "raioKm"
+        ]
+      },
+      "OcorrenciaRequest": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "NO_SHOW",
+              "CANCELAMENTO_TARDIO",
+              "CANCELAMENTO_PREVIO",
+              "ABANDONO_TURNO"
+            ]
+          }
+        },
+        "required": [
+          "tipo"
+        ]
+      },
+      "OcorrenciaResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "contratacaoId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "usuarioId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "NO_SHOW",
+              "CANCELAMENTO_TARDIO",
+              "CANCELAMENTO_PREVIO",
+              "ABANDONO_TURNO"
+            ]
+          },
+          "impactoScore": {
+            "type": "number"
+          },
+          "registradaEm": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CheckinRequest": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "maximum": 90.0,
+            "minimum": -90.0
+          },
+          "longitude": {
+            "type": "number",
+            "maximum": 180.0,
+            "minimum": -180.0
+          }
+        }
+      },
+      "ConversaResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "candidaturaId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "vagaId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "funcao": {
+            "type": "string"
+          },
+          "empresa": {
+            "$ref": "#/components/schemas/Parte"
+          },
+          "freelancer": {
+            "$ref": "#/components/schemas/Parte"
+          },
+          "ultimaMensagem": {
+            "$ref": "#/components/schemas/MensagemResposta"
+          },
+          "naoLidas": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "criadaEm": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ContestacaoRequest": {
+        "type": "object",
+        "properties": {
+          "justificativa": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 20
+          },
+          "evidenciaUrl": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "justificativa"
+        ]
+      },
+      "ContestacaoResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "avaliacaoId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "solicitanteId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "justificativa": {
+            "type": "string"
+          },
+          "evidenciaUrl": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ABERTA",
+              "ACEITA",
+              "NEGADA"
+            ]
+          },
+          "abertaEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "resolvidaEm": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RenovacaoRequest": {
+        "type": "object",
+        "properties": {
+          "tokenRenovacao": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "tokenRenovacao"
+        ]
+      },
+      "TokenResposta": {
+        "type": "object",
+        "properties": {
+          "tokenAcesso": {
+            "type": "string"
+          },
+          "tipoToken": {
+            "type": "string"
+          },
+          "expiraEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tokenRenovacao": {
+            "type": "string"
+          },
+          "usuarioId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "perfil": {
+            "type": "string",
+            "enum": [
+              "FREELANCER",
+              "EMPRESA",
+              "ADMINISTRADOR"
+            ]
+          }
+        }
+      },
+      "RedefinicaoSenhaRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 1
+          },
+          "codigo": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^\\d{6}$"
+          },
+          "novaSenha": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?=.*[A-Za-z])(?=.*\\d).{8,72}$"
+          }
+        },
+        "required": [
+          "codigo",
+          "email",
+          "novaSenha"
+        ]
+      },
+      "EmailRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 1
+          },
+          "senha": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "email",
+          "senha"
+        ]
+      },
+      "ConfirmacaoEmailRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 1
+          },
+          "codigo": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^\\d{6}$"
+          }
+        },
+        "required": [
+          "codigo",
+          "email"
+        ]
+      },
+      "DecisaoDisputaRequest": {
+        "type": "object",
+        "properties": {
+          "favoravelAoFreelancer": {
+            "type": "boolean"
+          },
+          "observacao": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "favoravelAoFreelancer"
+        ]
+      },
+      "DecisaoContestacaoRequest": {
+        "type": "object",
+        "properties": {
+          "aceita": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "aceita"
+        ]
+      },
+      "AtualizarRequest": {
+        "type": "object",
+        "properties": {
+          "funcaoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "endereco": {
+            "$ref": "#/components/schemas/EnderecoDto"
+          },
+          "descricao": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 0
+          },
+          "quantidadeProfissionais": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 1
+          },
+          "inicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fim": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "valor": {
+            "type": "number",
+            "minimum": 0.01
+          },
+          "tipoValor": {
+            "type": "string",
+            "enum": [
+              "HORA",
+              "TURNO",
+              "DIARIA"
+            ]
+          },
+          "ofereceAlimentacao": {
+            "type": "boolean"
+          },
+          "tipoAlimentacao": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 0
+          },
+          "formaPagamento": {
+            "type": "string",
+            "enum": [
+              "PIX",
+              "CARTAO"
+            ]
+          },
+          "disponivelAte": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodoValido": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RaioRequest": {
+        "type": "object",
+        "properties": {
+          "raioKm": {
+            "type": "number",
+            "maximum": 200.0,
+            "minimum": 0.5
+          }
+        },
+        "required": [
+          "raioKm"
+        ]
+      },
+      "LeituraRequest": {
+        "type": "object",
+        "properties": {
+          "lida": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "lida"
+        ]
+      },
+      "NotificacaoDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tipo": {
+            "type": "string"
+          },
+          "mensagem": {
+            "type": "string"
+          },
+          "referenciaId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "criadaEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lida": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AtualizacaoRequest": {
+        "type": "object",
+        "properties": {
+          "telefone": {
+            "type": "string",
+            "pattern": "^[0-9()+\\- ]{10,20}$"
+          },
+          "apresentacao": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 0
+          },
+          "endereco": {
+            "$ref": "#/components/schemas/EnderecoDto"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "dataNascimento": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "PaginaRespostaResposta": {
+        "type": "object",
+        "properties": {
+          "dados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Resposta"
+            }
+          },
+          "paginacao": {
+            "$ref": "#/components/schemas/Paginacao"
+          }
+        }
+      },
+      "Paginacao": {
+        "type": "object",
+        "properties": {
+          "pagina": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tamanho": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalItens": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPaginas": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "HistoricoItem": {
+        "type": "object",
+        "properties": {
+          "registradoEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "usuarioId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "acao": {
+            "type": "string"
+          },
+          "dadosAnteriores": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "dadosNovos": {
+            "$ref": "#/components/schemas/JsonNode"
+          }
+        }
+      },
+      "JsonNode": {
+        "type": "object",
+        "properties": {
+          "nodeType": {
+            "type": "string",
+            "enum": [
+              "ARRAY",
+              "BINARY",
+              "BOOLEAN",
+              "MISSING",
+              "NULL",
+              "NUMBER",
+              "OBJECT",
+              "POJO",
+              "STRING"
+            ]
+          },
+          "string": {
+            "type": "boolean"
+          },
+          "integralNumber": {
+            "type": "boolean"
+          },
+          "missingNode": {
+            "type": "boolean"
+          },
+          "valueNode": {
+            "type": "boolean"
+          },
+          "container": {
+            "type": "boolean"
+          },
+          "object": {
+            "type": "boolean"
+          },
+          "pojo": {
+            "type": "boolean"
+          },
+          "floatingPointNumber": {
+            "type": "boolean"
+          },
+          "short": {
+            "type": "boolean"
+          },
+          "int": {
+            "type": "boolean"
+          },
+          "long": {
+            "type": "boolean"
+          },
+          "double": {
+            "type": "boolean"
+          },
+          "bigDecimal": {
+            "type": "boolean"
+          },
+          "bigInteger": {
+            "type": "boolean"
+          },
+          "textual": {
+            "type": "boolean",
+            "deprecated": true
+          },
+          "boolean": {
+            "type": "boolean"
+          },
+          "binary": {
+            "type": "boolean"
+          },
+          "array": {
+            "type": "boolean"
+          },
+          "empty": {
+            "type": "boolean"
+          },
+          "null": {
+            "type": "boolean"
+          },
+          "float": {
+            "type": "boolean"
+          },
+          "number": {
+            "type": "boolean"
+          },
+          "embeddedValue": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PaginaRespostaHistoricoItem": {
+        "type": "object",
+        "properties": {
+          "dados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HistoricoItem"
+            }
+          },
+          "paginacao": {
+            "$ref": "#/components/schemas/Paginacao"
+          }
+        }
+      },
+      "CandidatoResposta": {
+        "type": "object",
+        "properties": {
+          "candidaturaId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ENVIADA",
+              "SELECIONADA",
+              "RECUSADA",
+              "DESISTENCIA",
+              "CONTRATADA"
+            ]
+          },
+          "criadaEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "freelancerId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "fotoUrl": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          },
+          "nivelReputacao": {
+            "type": "string",
+            "enum": [
+              "EXCELENTE",
+              "BOM",
+              "REGULAR",
+              "EM_RISCO"
+            ]
+          },
+          "verificado": {
+            "type": "boolean"
+          },
+          "trabalhosConcluidos": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ocorrenciaRecente": {
+            "type": "boolean"
+          },
+          "cidade": {
+            "type": "string"
+          }
+        }
+      },
+      "PaginaRespostaCandidatoResposta": {
+        "type": "object",
+        "properties": {
+          "dados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CandidatoResposta"
+            }
+          },
+          "paginacao": {
+            "$ref": "#/components/schemas/Paginacao"
+          }
+        }
+      },
+      "OpcaoResposta": {
+        "type": "object",
+        "properties": {
+          "opcao": {
+            "type": "string",
+            "enum": [
+              "VAGA_24H",
+              "VAGA_7D",
+              "BOOST_24H"
+            ]
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "BOOST_PERFIL",
+              "DESTAQUE_VAGA"
+            ]
+          },
+          "duracaoHoras": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "preco": {
+            "type": "number"
+          }
+        }
+      },
+      "PaginaRespostaNotificacaoDto": {
+        "type": "object",
+        "properties": {
+          "dados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NotificacaoDto"
+            }
+          },
+          "paginacao": {
+            "$ref": "#/components/schemas/Paginacao"
+          }
+        }
+      },
+      "Contato": {
+        "type": "object",
+        "properties": {
+          "telefone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "PerfilParaEmpresa": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "fotoUrl": {
+            "type": "string"
+          },
+          "apresentacao": {
+            "type": "string"
+          },
+          "curriculoUrl": {
+            "type": "string"
+          },
+          "cidade": {
+            "type": "string"
+          },
+          "uf": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          },
+          "nivelReputacao": {
+            "type": "string",
+            "enum": [
+              "EXCELENTE",
+              "BOM",
+              "REGULAR",
+              "EM_RISCO"
+            ]
+          },
+          "verificado": {
+            "type": "boolean"
+          },
+          "trabalhosConcluidos": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ocorrenciaRecente": {
+            "type": "boolean"
+          },
+          "funcoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FuncaoResposta"
+            }
+          },
+          "formacoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FormacaoResposta"
+            }
+          },
+          "contato": {
+            "$ref": "#/components/schemas/Contato"
+          }
+        }
+      },
+      "OcorrenciaResumo": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "NO_SHOW",
+              "CANCELAMENTO_TARDIO",
+              "CANCELAMENTO_PREVIO",
+              "ABANDONO_TURNO"
+            ]
+          },
+          "impacto": {
+            "type": "number"
+          },
+          "registradaEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contratacaoId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ScoreResposta": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "number"
+          },
+          "nivelReputacao": {
+            "type": "string",
+            "enum": [
+              "EXCELENTE",
+              "BOM",
+              "REGULAR",
+              "EM_RISCO"
+            ]
+          },
+          "mediaNotas90Dias": {
+            "type": "number"
+          },
+          "penalidades90Dias": {
+            "type": "number"
+          },
+          "trabalhosConcluidos": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ocorrencias90Dias": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OcorrenciaResumo"
+            }
+          },
+          "formula": {
+            "type": "string"
+          }
+        }
+      },
+      "PaginaRespostaSaqueResposta": {
+        "type": "object",
+        "properties": {
+          "dados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SaqueResposta"
+            }
+          },
+          "paginacao": {
+            "$ref": "#/components/schemas/Paginacao"
+          }
+        }
+      },
+      "GanhosResposta": {
+        "type": "object",
+        "properties": {
+          "periodo": {
+            "type": "string",
+            "enum": [
+              "HOJE",
+              "SETE_DIAS",
+              "MES",
+              "TOTAL"
+            ]
+          },
+          "totalLiberado": {
+            "type": "number"
+          },
+          "turnosConcluidos": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "horasTrabalhadas": {
+            "type": "number"
+          },
+          "valorMedioPorHora": {
+            "type": "number"
+          }
+        }
+      },
+      "PaginaRespostaConversaResposta": {
+        "type": "object",
+        "properties": {
+          "dados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversaResposta"
+            }
+          },
+          "paginacao": {
+            "$ref": "#/components/schemas/Paginacao"
+          }
+        }
+      },
+      "CompletudeResposta": {
+        "type": "object",
+        "properties": {
+          "percentual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "completo": {
+            "type": "boolean"
+          },
+          "pendencias": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SaldosResposta": {
+        "type": "object",
+        "properties": {
+          "saldoDisponivel": {
+            "type": "number"
+          },
+          "saldoPendente": {
+            "type": "number"
+          },
+          "saldoBloqueado": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          }
+        }
+      },
+      "MovimentacaoResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "CREDITO",
+              "SAQUE",
+              "BLOQUEIO",
+              "ESTORNO"
+            ]
+          },
+          "valor": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDENTE",
+              "CONCLUIDA",
+              "FALHOU"
+            ]
+          },
+          "criadaEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pagamentoId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "vagaId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "estabelecimento": {
+            "type": "string"
+          },
+          "inicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fim": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "valorBruto": {
+            "type": "number"
+          },
+          "taxaPlataforma": {
+            "type": "number"
+          },
+          "valorLiquido": {
+            "type": "number"
+          },
+          "contaRecebimentoId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "PaginaRespostaMovimentacaoResposta": {
+        "type": "object",
+        "properties": {
+          "dados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MovimentacaoResposta"
+            }
+          },
+          "paginacao": {
+            "$ref": "#/components/schemas/Paginacao"
+          }
+        }
+      },
+      "PendenteResposta": {
+        "type": "object",
+        "properties": {
+          "contratacaoId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "empresa": {
+            "type": "string"
+          },
+          "funcao": {
+            "type": "string"
+          },
+          "encerradaEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "prazoAte": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PaginaRespostaContestacaoResposta": {
+        "type": "object",
+        "properties": {
+          "dados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContestacaoResposta"
+            }
+          },
+          "paginacao": {
+            "$ref": "#/components/schemas/Paginacao"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "token": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

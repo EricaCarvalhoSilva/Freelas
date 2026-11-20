@@ -1,0 +1,39 @@
+# Ambiente de desenvolvimento: PostgreSQL 16 + API.
+# Só o banco:  docker compose up -d banco   (e rode a API pela IDE ou com mvn spring-boot:run)
+# Tudo:        docker compose up --build
+services:
+  banco:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: freelas
+      POSTGRES_USER: freelas
+      POSTGRES_PASSWORD: freelas
+    ports:
+      - "5432:5432"
+    volumes:
+      - dados-freelas:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U freelas -d freelas"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: .
+    depends_on:
+      banco:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://banco:5432/freelas
+      DB_USUARIO: freelas
+      DB_SENHA: freelas
+      ADMIN_EMAIL: admin@freelas.local
+      ADMIN_SENHA: Admin@12345
+      # Em produção troque os segredos abaixo (JWT_SEGREDO com 32+ caracteres; CHAVE_CRIPTOGRAFIA = 32 bytes em Base64)
+      # JWT_SEGREDO: ...
+      # CHAVE_CRIPTOGRAFIA: ...
+      # WEBHOOK_SEGREDO: ...
+    ports:
+      - "8080:8080"
+
+volumes:
+  dados-freelas:
