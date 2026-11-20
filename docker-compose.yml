@@ -1,0 +1,21 @@
+﻿services:
+  db:
+    image: postgres:16
+    container_name: freelas-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-freelas}
+      POSTGRES_USER: ${POSTGRES_USER:-freelas}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-freelas}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - freelas-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-freelas} -d ${POSTGRES_DB:-freelas}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  freelas-pgdata:
